@@ -13,6 +13,14 @@ namespace BusinessEntities
         private string _name;
         private UserTypes _type = UserTypes.Employee;
 
+        public User()
+        {
+        }
+
+        public User(Guid id) : base(id)
+        {
+        }
+
         public string Email
         {
             get => _email;
@@ -74,7 +82,7 @@ namespace BusinessEntities
 
         public void SetAge(int age)
         {
-            _email = _name;
+            _age = age;
         }
 
         public void SetMonthlySalary(decimal? monthlySalary)

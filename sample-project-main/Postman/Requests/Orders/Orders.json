@@ -1,0 +1,151 @@
+{
+  "info": {
+    "name": "OrderController",
+    "description": "Postman collection for OrderController API methods",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:49834",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "00000000-0000-0000-0000-000000000000",
+      "type": "A valid order GUID"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/orders/{{orderId}}/create",
+          "host": [ "{{baseUrl}}" ],
+          "path": [ "orders", "{{orderId}}", "create" ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerName\": \"John Doe\",\n  \"orderDate\": \"2026-11-19T00:00:00Z\",\n  \"status\": \"Pending\",\n  \"productId\": \"00000000-0000-0000-0000-000000000000\",\n  \"quantity\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Creates a new order with the given orderId (GUID) and order details in the request body."
+      }
+    },
+    {
+      "name": "Update Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/orders/{{orderId}}/update",
+          "host": [ "{{baseUrl}}" ],
+          "path": [ "orders", "{{orderId}}", "update" ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"customerName\": \"Jane Doe\",\n  \"orderDate\": \"2026-11-19T00:00:00Z\",\n  \"status\": \"Shipped\",\n  \"productId\": \"00000000-0000-0000-0000-000000000000\",\n  \"quantity\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Updates an existing order identified by orderId. Returns 'Order Does Not Exist' if not found."
+      }
+    },
+    {
+      "name": "Delete Order",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/orders/{{orderId}}/delete",
+          "host": [ "{{baseUrl}}" ],
+          "path": [ "orders", "{{orderId}}", "delete" ]
+        },
+        "description": "Deletes an order identified by orderId. Returns 'Order Does Not Exist' if not found."
+      }
+    },
+    {
+      "name": "Get Order",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/orders/{{orderId}}",
+          "host": [ "{{baseUrl}}" ],
+          "path": [ "orders", "{{orderId}}" ]
+        },
+        "description": "Retrieves a single order by its orderId (GUID). Returns 'Order Does Not Exist' if not found."
+      }
+    },
+    {
+      "name": "List Orders",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/orders/list?skip=0&take=100&customerName=&status=&fromDate=&toDate=&productId=",
+          "host": [ "{{baseUrl}}" ],
+          "path": [ "orders", "list" ],
+          "query": [
+            {
+              "key": "skip",
+              "value": "0",
+              "description": "Number of records to skip (default: 0)"
+            },
+            {
+              "key": "take",
+              "value": "100",
+              "description": "Number of records to return (default: 100)"
+            },
+            {
+              "key": "customerName",
+              "value": "",
+              "description": "Filter by customer name (optional)"
+            },
+            {
+              "key": "status",
+              "value": "",
+              "description": "Filter by order status (optional)"
+            },
+            {
+              "key": "fromDate",
+              "value": "",
+              "description": "Filter orders from this date (optional, ISO 8601)"
+            },
+            {
+              "key": "toDate",
+              "value": "",
+              "description": "Filter orders up to this date (optional, ISO 8601)"
+            },
+            {
+              "key": "productId",
+              "value": "",
+              "description": "Filter by product GUID (optional)"
+            }
+          ]
+        },
+        "description": "Returns a paginated and filtered list of orders. All query parameters are optional."
+      }
+    }
+  ]
+}

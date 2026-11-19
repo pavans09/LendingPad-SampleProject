@@ -1,12 +1,20 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using BusinessEntities;
 using Common;
+using Data.Repositories;
 
 namespace Core.Services.Users
 {
-    [AutoRegister(AutoRegisterTypes.Singleton)]
+    [AutoRegister]
     public class UpdateUserService : IUpdateUserService
     {
+        private readonly IUserRepository _userRepository;
+
+        public UpdateUserService(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
         public void Update(User user, string name, string email, UserTypes type, decimal? annualSalary, IEnumerable<string> tags)
         {
             user.SetEmail(email);
@@ -14,6 +22,7 @@ namespace Core.Services.Users
             user.SetType(type);
             user.SetMonthlySalary(annualSalary.Value / 12);
             user.SetTags(tags);
+            _userRepository.Save(user);
         }
     }
 }

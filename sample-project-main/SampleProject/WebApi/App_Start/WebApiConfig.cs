@@ -1,5 +1,6 @@
-﻿using System.Web.Http;
-using System.Web.Http.Filters;
+﻿using System.Configuration;
+using System.Data.SqlClient;
+using System.Web.Http;
 using Common;
 using Core;
 using Data;
@@ -9,7 +10,6 @@ using Newtonsoft.Json.Serialization;
 using SimpleInjector;
 using SimpleInjector.Integration.WebApi;
 using SimpleInjector.Lifestyles;
-using WebApi.App_Start;
 
 namespace WebApi
 {
@@ -24,7 +24,17 @@ namespace WebApi
             var assembly = typeof(WebApiConfig).Assembly;
             InitializeAssemblyInstancesService.Initialize(container, lifestyle, assembly);
 
-            DataConfiguration.Initialize(container, lifestyle);
+            var userDatabaseConnectionString = ConfigurationManager.ConnectionStrings["SampleProject"];
+            if (userDatabaseConnectionString == null)
+            {
+                throw new ConfigurationErrorsException("The SampleProject connection string is missing.");
+            }
+
+            DataConfiguration.Initialize(
+                container,
+                lifestyle,
+                userDatabaseConnectionString.ConnectionString,
+                SqlClientFactory.Instance);
             CoreConfiguration.Initialize(container, lifestyle);
 
             container.RegisterWebApiControllers(config);
@@ -49,11 +59,6 @@ namespace WebApi
                                        "api/{controller}/{id}",
                                        new { id = RouteParameter.Optional }
                                       );
-
-            config.Filters.AddRange(new IFilter[]
-                                    {
-                                        new ContextInitializeAttribute()
-                                    });
         }
     }
 }

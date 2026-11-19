@@ -39,7 +39,7 @@ namespace WebApi.Controllers
             var user = _getUserService.GetUser(userId);
             if (user == null)
             {
-                return DoesNotExist();
+                return DoesNotExist("User Does Not Exist");
             }
             _updateUserService.Update(user, model.Name, model.Email, model.Type, model.AnnualSalary, model.Tags);
             return Found(new UserData(user));
@@ -52,7 +52,7 @@ namespace WebApi.Controllers
             var user = _getUserService.GetUser(userId);
             if (user == null)
             {
-                return DoesNotExist();
+                return DoesNotExist("User Does Not Exist");
             }
             _deleteUserService.Delete(user);
             return Found();
@@ -63,6 +63,10 @@ namespace WebApi.Controllers
         public HttpResponseMessage GetUser(Guid userId)
         {
             var user = _getUserService.GetUser(userId);
+            if (user == null)
+            {
+                return DoesNotExist("User Does Not Exist");
+            }
             return Found(new UserData(user));
         }
 
@@ -89,7 +93,10 @@ namespace WebApi.Controllers
         [HttpGet]
         public HttpResponseMessage GetUsersByTag(string tag)
         {
-            throw new NotImplementedException();
+            var users = _getUserService.GetUsersByTag(tag)
+                                       .Select(user => new UserData(user))
+                                       .ToList();
+            return Found(users);
         }
     }
 }
