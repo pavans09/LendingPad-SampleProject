@@ -8,6 +8,15 @@ namespace BusinessEntities
     {
         private Guid _id = Guid.NewGuid();
 
+        protected IdObject()
+        {
+        }
+
+        protected IdObject(Guid id)
+        {
+            _id = id;
+        }
+
         public Guid Id
         {
             get => _id;

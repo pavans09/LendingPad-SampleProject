@@ -1,0 +1,150 @@
+{
+  "info": {
+    "name": "ProductController",
+    "description": "API collection for ProductController endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:49834",
+      "description": "Base URL of the API server"
+    },
+    {
+      "key": "productId",
+      "value": "00000000-0000-0000-0000-000000000000",
+      "description": "A valid product GUID"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/products/{{productId}}/create",
+          "host": [ "{{base_url}}" ],
+          "path": [ "products", "{{productId}}", "create" ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Sample Product\",\n  \"description\": \"A sample product description\",\n  \"price\": 29.99,\n  \"stockQuantity\": 100\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Creates a new product with the given productId (GUID). Requires Name, Description, Price, and StockQuantity in the request body."
+      }
+    },
+    {
+      "name": "Update Product",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/products/{{productId}}/update",
+          "host": [ "{{base_url}}" ],
+          "path": [ "products", "{{productId}}", "update" ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Updated Product Name\",\n  \"description\": \"Updated product description\",\n  \"price\": 39.99,\n  \"stockQuantity\": 50\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "description": "Updates an existing product by productId (GUID). Returns 'Product Does Not Exist' if not found."
+      }
+    },
+    {
+      "name": "Delete Product",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products/{{productId}}/delete",
+          "host": [ "{{base_url}}" ],
+          "path": [ "products", "{{productId}}", "delete" ]
+        },
+        "description": "Deletes a product by productId (GUID). Returns 'Product Does Not Exist' if not found."
+      }
+    },
+    {
+      "name": "Get Product",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products/{{productId}}",
+          "host": [ "{{base_url}}" ],
+          "path": [ "products", "{{productId}}" ]
+        },
+        "description": "Retrieves a single product by productId (GUID). Returns 'Product Does Not Exist' if not found."
+      }
+    },
+    {
+      "name": "List Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/products/list?skip=0&take=100&name=&minPrice=&maxPrice=&inStock=",
+          "host": [ "{{base_url}}" ],
+          "path": [ "products", "list" ],
+          "query": [
+            {
+              "key": "skip",
+              "value": "0",
+              "description": "Number of records to skip (default: 0)"
+            },
+            {
+              "key": "take",
+              "value": "100",
+              "description": "Number of records to return (default: 100)"
+            },
+            {
+              "key": "name",
+              "value": "",
+              "description": "Filter by product name (optional)",
+              "disabled": true
+            },
+            {
+              "key": "minPrice",
+              "value": "",
+              "description": "Filter by minimum price (optional)",
+              "disabled": true
+            },
+            {
+              "key": "maxPrice",
+              "value": "",
+              "description": "Filter by maximum price (optional)",
+              "disabled": true
+            },
+            {
+              "key": "inStock",
+              "value": "",
+              "description": "Filter by in-stock status true/false (optional)",
+              "disabled": true
+            }
+          ]
+        },
+        "description": "Returns a paginated list of products. Supports optional filters: name, minPrice, maxPrice, inStock."
+      }
+    }
+  ]
+}
